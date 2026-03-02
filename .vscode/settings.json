@@ -1,0 +1,10 @@
+{
+    "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+    "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+    "editor": {
+        "formatOnSave": true
+    },
+    "C_Cpp": {
+        "default.compilerPath": "/usr/bin/clang++"
+    }
+}
