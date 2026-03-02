@@ -1,0 +1,33 @@
+{
+	"name": "cpp_devcontainer",
+	"build": {
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+	"containerUser": "devcontainer",
+	"userEnvProbe": "loginInteractiveShell",
+	"updateRemoteUserUID": true,
+	"runArgs": [
+		"--rm",
+		"-it",
+		"--memory",
+		"8g",
+		"--memory-swap",
+		"8g",
+		"--cpus",
+		"8"
+	],
+	"containerEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}"
+	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=/cpp_devcontainer,type=bind,consistency=cached",
+	"workspaceFolder": "/cpp_devcontainer",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools",
+				"ms-vscode.cmake-tools"
+			]
+		}
+	}
+}
