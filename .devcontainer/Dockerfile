@@ -11,7 +11,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get install -y --no-install-recommends \
     sudo git make curl gnupg2 wget ca-certificates openssh-client \
     # c++
-    build-essential clang clang-tidy clang-format cmake gdb
+    build-essential clang clang-tidy clang-format cmake gdb \
+    # vcpkg
+    curl zip unzip tar
 
 ARG USERNAME=devcontainer
 ARG USER_UID=1000
@@ -22,6 +24,14 @@ RUN groupadd --gid ${USER_GID} ${USERNAME} &&\
 
 # locale
 ENV TZ="Etc/UTC"
+
+
+# install vcpkg
+ARG VCPKG_TOOL_VERSION=2026-07-13
+RUN --mount=type=bind,source=scripts/install_vcpkg.sh,target=/tmp/install_vcpkg.sh \
+    VCPKG_TOOL_VERSION=${VCPKG_TOOL_VERSION} ./tmp/install_vcpkg.sh /home/${USERNAME}/.local/bin
+
+ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
 
 USER ${USERNAME}
 
