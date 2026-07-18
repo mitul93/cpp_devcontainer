@@ -5,12 +5,20 @@
         {
             "customType": "regex",
             "fileMatch": [
-                "(^|/)[a-zA-Z0-9_-]+_version\\.env$",
-                "(^|/)Containerfile$",
-                "(^|/)Dockerfile$"
+                "(^|/)[a-zA-Z0-9_-]+_version\\.env$"
             ],
             "matchStrings": [
                 "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s*\\n(?<key>[A-Z0-9_]+)=(?<currentValue>\\S+)"
+            ]
+        },
+        {
+            "customType": "regex",
+            "fileMatch": [
+                "(^|/)Dockerfile$",
+                "(^|/)Containerfile$"
+            ],
+            "matchStrings": [
+                "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s*\\nARG (?<key>[A-Z0-9_]+)\\s*=\\s*(?<currentValue>\\S+)"
             ]
         }
     ]
