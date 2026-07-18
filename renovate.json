@@ -8,7 +8,7 @@
                 "(^|/)[a-zA-Z0-9_-]+_version\\.env$"
             ],
             "matchStrings": [
-                "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s+[^\\n]*\\n\\w+=(?<currentValue>\\S+)"
+                "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?=[^\\n]*\\bversioning=(?<versioning>\\S+))?[^\\n]*\\n\\w+=(?<currentValue>\\S+)"
             ]
         }
     ]
