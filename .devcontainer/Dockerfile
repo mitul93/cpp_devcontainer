@@ -22,9 +22,10 @@ ARG USER_GID=1000
 RUN groupadd --gid ${USER_GID} ${USERNAME} &&\
     useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}
 
-# locale
+# locale and timezone
 ENV TZ="Etc/UTC"
-
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 # install vcpkg
 ARG VCPKG_TOOL_VERSION=2026-07-13
