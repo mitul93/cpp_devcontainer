@@ -3,8 +3,11 @@ FROM debian:trixie-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN rm -f /etc/apt/apt.conf.d/docker-clean
+
 # install apt packages and dependencies
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     sudo git make curl gnupg2 wget ca-certificates openssh-client \
     # c++
