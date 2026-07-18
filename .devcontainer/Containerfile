@@ -30,6 +30,7 @@ ENV LC_ALL=C.UTF-8
 USER ${USERNAME}
 
 # install vcpkg (non-root)
+# renovate: datasource=github-tags depName=microsoft/vcpkg versioning=loose
 ARG VCPKG_VERSION=2026.05.25
 RUN --mount=type=bind,source=scripts/install_vcpkg.sh,target=/tmp/install_vcpkg.sh,readonly \
     VCPKG_VERSION=${VCPKG_VERSION} /tmp/install_vcpkg.sh /home/${USERNAME}
