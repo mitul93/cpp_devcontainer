@@ -2,68 +2,38 @@
 
 set -euo pipefail
 
-INSTALL_DIR=$1
+echo "(*) Running ./install_vcpkg.sh:"
 
-if [ -z "${VCPKG_TOOL_VERSION:-}" ]; then
-    echo "VCPKG_TOOL_VERSION is not set"
+INSTALL_PREFIX=$1
+
+if [ -z "${VCPKG_VERSION:-}" ]; then
+    echo "VCPKG_VERSION is not set"
     exit 1
 fi
 
-echo "(*) Running ./install_vcpkg.sh:"
-echo "    INSTALL_DIR : ${INSTALL_DIR}"
-echo "    VCPKG_TOOL_VERSION: ${VCPKG_TOOL_VERSION}"
+if [ -z "${INSTALL_PREFIX:-}" ]; then
+    echo "INSTALL_PREFIX is not set"
+    exit 1
+fi
 
-detect_platform() {
-    OS="$(uname -s)"
+if [ "$(id -u)" -eq 0 ]; then
+    echo "Script must be run as non-root user." >&2
+    exit 1
+fi
 
-    case "$OS" in
-        Linux)
-            OS="linux"
-            ;;
-        *)
-            echo "Unsupported OS: $OS"
-            exit 1
-            ;;
-    esac
+INSTALL_PREFIX="${INSTALL_PREFIX%/}"
+INSTALL_DIR="${INSTALL_PREFIX}/vcpkg"
 
-    ARCH="$(dpkg --print-architecture)"
+echo "(*) INSTALL_DIR : ${INSTALL_DIR}"
+echo "(*) VCPKG_VERSION: ${VCPKG_VERSION}"
 
-    case "$ARCH" in
-        x86_64|amd64)
-            ARCH="x64"
-            ;;
-        aarch64|arm64)
-            ARCH="arm64"
-            ;;
-        *)
-            echo "Unsupported architecture: $ARCH"
-            exit 1
-            ;;
-    esac
-}
+VCPKG_URI=https://github.com/microsoft/vcpkg.git
 
-download_vcpkg_tool() {
-    detect_platform
-    local vcpkgToolName
+mkdir -p ${INSTALL_DIR}
+git -c advice.detachedHead=false clone --quiet ${VCPKG_URI} ${INSTALL_DIR} --branch=${VCPKG_VERSION} --filter=tree:0
+${INSTALL_DIR}/bootstrap-vcpkg.sh -disableMetrics
 
-    if [ "$OS" = "linux" ] && [ "$ARCH" = "x64" ]; then
-        echo "Downloading vcpkg-glibc..."
-        vcpkgToolName="vcpkg-glibc"
-    else
-        echo "Unsupported platform: ${OS} ${ARCH}"
-        exit 1
-    fi
-
-    mkdir -p "$INSTALL_DIR"
-    curl -fsSL \
-        -o "${INSTALL_DIR}/vcpkg" \
-        "https://github.com/microsoft/vcpkg-tool/releases/download/${VCPKG_TOOL_VERSION}/${vcpkgToolName}"
-
-    chmod +x "${INSTALL_DIR}/vcpkg"
-}
-
-
-download_vcpkg_tool
 echo "(*) Installed vcpkg-tools to: $INSTALL_DIR/vcpkg"
 echo "(*) Version:" 
-$INSTALL_DIR/vcpkg version --disable-metrics
+${INSTALL_DIR}/vcpkg version --disable-metrics
+echo "(*) set environment variable VCPKG_ROOT to ${INSTALL_DIR}/vcpkg"
