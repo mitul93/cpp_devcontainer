@@ -2,7 +2,7 @@
 	"name": "cpp_devcontainer",
 	"build": {
 		"context": "..",
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Containerfile"
 	},
 	"containerUser": "devcontainer",
 	"userEnvProbe": "loginInteractiveShell",
