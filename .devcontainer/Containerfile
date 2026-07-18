@@ -27,13 +27,6 @@ ENV TZ="Etc/UTC"
 ENV LANG=C.UTF-8
 ENV LC_ALL=C.UTF-8
 
-# install vcpkg
-ARG VCPKG_TOOL_VERSION=2026-07-13
-RUN --mount=type=bind,source=scripts/install_vcpkg.sh,target=/tmp/install_vcpkg.sh \
-    VCPKG_TOOL_VERSION=${VCPKG_TOOL_VERSION} ./tmp/install_vcpkg.sh /home/${USERNAME}/.local/bin
-
-ENV PATH="$PATH:/home/${USERNAME}/.local/bin"
-
 USER ${USERNAME}
 
 # install vcpkg (non-root)
