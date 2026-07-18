@@ -5,7 +5,9 @@
         {
             "customType": "regex",
             "fileMatch": [
-                "(^|/)[a-zA-Z0-9_-]+_version\\.env$"
+                "(^|/)[a-zA-Z0-9_-]+_version\\.env$",
+                "(^|/)Containerfile$",
+                "(^|/)Dockerfile$"
             ],
             "matchStrings": [
                 "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?\\s*\\n(?<key>[A-Z0-9_]+)=(?<currentValue>\\S+)"
