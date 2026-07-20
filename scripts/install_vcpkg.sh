@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-echo "(*) Running ./install_vcpkg.sh:"
+echo "(*) Running ./install_vcpkg.sh"
 
 INSTALL_PREFIX=$1
 
